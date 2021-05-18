@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Map_Sample.MainPage"
+             xmlns:local="clr-namespace:Map_Sample"
+             xmlns:maps="clr-namespace:Syncfusion.SfMaps.XForms;assembly=Syncfusion.SfMaps.XForms"
+             Title="Covid Dashboard"
+             BackgroundColor="#9531f3"
+             Padding="10">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" >
+                    <Label Text="Start Date:" VerticalOptions="Center" TextColor="White" />
+                    <DatePicker x:Name="startDatePicker" Format="D" DateSelected="OnDateSelected" TextColor="White"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" >
+                    <Label Text="End Date:" VerticalOptions="Center" TextColor="White" />
+                    <DatePicker x:Name="endDatePicker" MinimumDate="{Binding Source={x:Reference startDatePicker}, Path=Date}" Format="D" DateSelected="OnDateSelected" TextColor="White" />
+                </StackLayout>
+
+                <StackLayout>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Today confirmed: " FontAttributes="Bold"/>
+                                <Span Text="{Binding TodayConfirmed}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Today deaths: " FontAttributes="Bold"/>
+                                <Span Text="{Binding TodayDeaths}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Today new confirmed: " FontAttributes="Bold"/>
+                                <Span Text="{Binding TodayNewConfirmed}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Today new deaths: " FontAttributes="Bold"/>
+                                <Span Text="{Binding TodayNewDeaths}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+                <Grid x:Name="grid">
+                    <maps:SfMaps x:Name="sfmap" BackgroundColor="Transparent" EnableZooming="True">
+                        <maps:SfMaps.Layers>
+                            <maps:ShapeFileLayer x:Name="Layer" ShapeSelectionChanged="Layer_ShapeSelectionChanged" Uri="world1.shp" ShapeIDPath="Name" ShapeIDTableField="NAME" ItemsSource="{Binding Countries, Mode=TwoWay}" ShowMapItems="True"  SelectionMode="Single" EnableSelection="True" >
+                                <maps:ShapeFileLayer.TooltipSettings>
+                                    <maps:TooltipSetting  ShowTooltip="True"  ValuePath="Name" TextColor="White" Margin="10" BackgroundColor="Green" StrokeColor="Black" StrokeWidth="2" Duration="2000"/>
+                                </maps:ShapeFileLayer.TooltipSettings>
+
+                                <!--<maps:ShapeFileLayer.Markers>
+                                <maps:MapMarker Label = "California" Latitude = "37" Longitude = "-120">
+                                </maps:MapMarker>
+                            </maps:ShapeFileLayer.Markers>
+
+                            <maps:ShapeFileLayer.MarkerSettings>
+                                <maps:MapMarkerSetting IconColor="LimeGreen" IconSize="25" 
+                                                   LabelColor="White" LabelSize="20">
+                                </maps:MapMarkerSetting>
+                            </maps:ShapeFileLayer.MarkerSettings>
+
+                            <maps:ShapeFileLayer.ShapeSettings>
+                                <maps:ShapeSetting ShapeColorValuePath="Candidate" ShapeValuePath="Candidate">
+                                    <maps:ShapeSetting.ColorMappings>
+
+                                        <maps:EqualColorMapping Color="#D84444" LegendLabel="Romney"
+                                                            Value = "Romney"></maps:EqualColorMapping>
+                                        <maps:EqualColorMapping Color="#316DB5" LegendLabel="Obama"
+                                                            Value="Obama"></maps:EqualColorMapping>
+                                    </maps:ShapeSetting.ColorMappings>
+                                </maps:ShapeSetting>
+                            </maps:ShapeFileLayer.ShapeSettings>
+
+                            <maps:ShapeFileLayer.LegendSettings>
+                                <maps:MapLegendSetting ShowLegend="True" 
+                                                   LegendPosition="30,70">
+                                    <maps:MapLegendSetting.IconSize>
+                                        <Size Width="20" Height="20"></Size>
+                                    </maps:MapLegendSetting.IconSize>
+                                </maps:MapLegendSetting>
+                            </maps:ShapeFileLayer.LegendSettings>-->
+
+
+                            </maps:ShapeFileLayer>
+                        </maps:SfMaps.Layers>
+                    </maps:SfMaps>
+                </Grid>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

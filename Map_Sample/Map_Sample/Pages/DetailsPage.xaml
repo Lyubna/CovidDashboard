@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             x:Class="Map_Sample.DetailsPage"
+             x:Name="page"
+             BackgroundColor="#9531f3">
+    <ContentPage.Resources>
+        
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label FontAttributes="Bold" TextColor="White" >
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Total results: "/>
+                        <Span Text="{Binding TotalResults}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <ScrollView>
+                <StackLayout BindableLayout.ItemsSource="{Binding Articles}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="#9531f3" CornerRadius="10">
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold"/>
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Author: " FontAttributes="Bold"/>
+                                                    <Span Text="{Binding Author}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label HorizontalOptions="EndAndExpand">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="PublishedAt: " FontAttributes="Bold"/>
+                                                    <Span Text="{Binding PublishedAt}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Name: " FontAttributes="Bold"/>
+                                                <Span Text="{Binding Name}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Description: " FontAttributes="Bold"/>
+                                                <Span Text="{Binding Description}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Content: " FontAttributes="Bold"/>
+                                                <Span Text="{Binding Content}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>                                    
+                                    <Label Text="Redirect to article" TextColor="Blue" TextDecorations="Underline">                                       
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.TapCommand , Source={x:Reference page}}" CommandParameter="{Binding Url}"/>
+                                        </Label.GestureRecognizers>                                           
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

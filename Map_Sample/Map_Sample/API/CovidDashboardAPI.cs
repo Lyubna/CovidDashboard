@@ -18,7 +18,7 @@ namespace Map_Sample.API
                 var WebAPIUrl = $"https://api.covid19tracking.narrativa.com/api?date_from={fromDate}&date_to={toDate}"; 
                 var response = await api.Get<dynamic>(WebAPIUrl);
                 if(response != null)
-                    return response.Result;
+                    return response.Result.ToObject<dynamic>();
                 return null;
             }
         }

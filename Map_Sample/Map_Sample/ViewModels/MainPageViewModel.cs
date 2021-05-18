@@ -2,6 +2,7 @@
 using Map_Sample.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Org.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -109,15 +110,59 @@ namespace Map_Sample
                 TodayNewConfirmed = total.today_new_confirmed;
                 TodayNewDeaths = total.today_new_deaths;
 
-                var countriesBasedOnDate = countriesList.dates;
-                var list = JsonConvert.DeserializeObject<List<dynamic>>(countriesBasedOnDate);
-                if (countriesBasedOnDate != null) 
+                var countriesFrom = (dynamic)countriesList.dates.GetValue(fromDate.Replace('/','-')).countries;
+                foreach (var x in Countries)
                 {
-                    //var list = JsonConvert.DeserializeObject<dynamic>(countriesBasedOnDate);
-                    //var firstDateValues = list[0];
-                    //var lastDateValues = list[countriesBasedOnDate?.Count()-1];
+                    var countryDataFrom = countriesFrom.GetValue(x.Name);
+                    if (countryDataFrom != null)
+                    {
+                        x.TodayConfirmed = (string)countryDataFrom.today_confirmed;
+                        x.TodayDeaths = countryDataFrom.today_deaths;
+                        x.TodayNewConfirmed = countryDataFrom.today_new_confirmed;
+                        x.TodayNewDeaths = countryDataFrom.today_new_deaths;
+                    }
+
                 }
-                
+
+                Countries.ToList().ForEach(x=> x.IsMostCases = false);
+                var itemMostCases = Countries.OrderByDescending(i => i.TodayConfirmed).FirstOrDefault();
+                if(itemMostCases != null) itemMostCases.IsMostCases = true;
+
+                Countries.ToList().ForEach(x => x.IsMostDeaths = false);
+                var itemMostTodayDeaths = Countries.OrderByDescending(i => i.TodayDeaths).FirstOrDefault();
+                if (itemMostTodayDeaths != null) itemMostCases.IsMostDeaths = true;
+
+                var valuesTo = (dynamic)countriesList.dates.GetValue(toDate.Replace('/', '-'));
+                if (valuesTo != null && !fromDate.Equals(toDate))
+                {
+                    var countriesTo = (dynamic)valuesTo.countries;
+
+                    foreach (var x in Countries)
+                    {
+                        var countryDataTo = countriesTo.GetValue(x.Name);
+                        var countryDataFrom = countriesFrom.GetValue(x.Name);
+                        if (countryDataFrom != null)
+                        {
+                            var todayConf1 = (int)countryDataFrom.today_confirmed;
+                            var todayConf2 = (int)countryDataTo.today_confirmed;
+                            var diff1 = todayConf2 - todayConf1;
+                            x.TodayConfirmed = diff1.ToString();
+                            var diff2 = (int)countryDataFrom.today_deaths - (int)countryDataTo.today_deaths;
+                            x.TodayDeaths = diff2.ToString();
+                            x.TodayNewConfirmed = countryDataTo.today_new_confirmed;
+                            x.TodayNewDeaths = countryDataTo.today_new_deaths;
+                        }
+
+                    }
+
+                    Countries.ToList().ForEach(x => x.IsMostCases = false);
+                    var itemMostCases1 = Countries.OrderByDescending(i => i.TodayConfirmed).FirstOrDefault();
+                    if (itemMostCases1 != null) itemMostCases1.IsMostCases = true;
+
+                    Countries.ToList().ForEach(x => x.IsMostDeaths = false);
+                    var itemMostTodayDeaths1 = Countries.OrderByDescending(i => i.TodayDeaths).FirstOrDefault();
+                    if (itemMostTodayDeaths != null) itemMostTodayDeaths1.IsMostDeaths = true;
+                }
             }
         }
         public MainPageViewModel()

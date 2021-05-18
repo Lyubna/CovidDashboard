@@ -17,7 +17,7 @@ namespace Map_Sample.ViewModels
     public class DetailsViewModel: INotifyPropertyChanged
     {
         private string _totalResults;
-        public string TotalResults
+        public string TotalResults 
         {
             get { return _totalResults; }
             set 
@@ -66,7 +66,12 @@ namespace Map_Sample.ViewModels
                         Articles.Add(Article.FromDto(item));
                     }
                 }
+                else 
+                    TotalResults = "No results";
             }
+            else
+                TotalResults = "No country code for this item";
+
         }
     }
 }

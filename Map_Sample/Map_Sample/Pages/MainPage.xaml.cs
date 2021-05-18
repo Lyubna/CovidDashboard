@@ -13,14 +13,12 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace Map_Sample
 {
-
     public partial class MainPage : ContentPage
     {
         private MainPageViewModel VM;
         public MainPage()
         {
             InitializeComponent();
-            //Routing.RegisterRoute(nameof(DetailsPage), typeof(DetailsPage));
             On<Xamarin.Forms.PlatformConfiguration.iOS>().SetUseSafeArea(true);
             BindingContext = VM = new MainPageViewModel();
         }
@@ -39,14 +37,6 @@ namespace Map_Sample
         {
             var fromDate = startDatePicker.Date.ToString("yyyy/MM/dd");
             var toDate = endDatePicker.Date.ToString("yyyy/MM/dd");
-
-            //if (toDate < fromDate)
-            //{
-            //    await DisplayAlert("Alert", "To date can't be less than From date", "OK");
-            //    return;
-
-            //}
-
             await VM.ExcuteLoadCommand(fromDate, toDate);
         }
 
@@ -55,15 +45,11 @@ namespace Map_Sample
             if (sender is Syncfusion.SfMaps.XForms.ShapeFileLayer && e?.Data != null && e.Data is Country country) 
             {
                 var page = new DetailsPage(country.Name);
+                page.Title = country.Name;
                 await Navigation.PushAsync(page);
 
             }
                         
         }
-
     }
-
-    
-
-    
 }

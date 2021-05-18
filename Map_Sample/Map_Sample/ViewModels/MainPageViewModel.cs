@@ -22,7 +22,17 @@ namespace Map_Sample
         public ObservableCollection<Country> Countries
         {
             get { return countries; }
-            set { countries = value; }
+            set
+            {
+                if (countries != value)
+                {
+                    countries = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("Countries"));
+                    }
+                }
+            }
         }
 
         private ObservableCollection<Country> selectedItems = new ObservableCollection<Country>();
@@ -124,10 +134,9 @@ namespace Map_Sample
 
                 }
 
-                Countries.ToList().ForEach(x=> x.IsMostCases = false);
+                Countries.ToList().ForEach(x => x.IsMostCases = false);
                 var itemMostCases = Countries.OrderByDescending(i => i.TodayConfirmed).FirstOrDefault();
-                if(itemMostCases != null) itemMostCases.IsMostCases = true;
-
+                if (itemMostCases != null) itemMostCases.IsMostCases = true;
                 Countries.ToList().ForEach(x => x.IsMostDeaths = false);
                 var itemMostTodayDeaths = Countries.OrderByDescending(i => i.TodayDeaths).FirstOrDefault();
                 if (itemMostTodayDeaths != null) itemMostCases.IsMostDeaths = true;

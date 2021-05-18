@@ -15,15 +15,15 @@
             <StackLayout>
                 <StackLayout Orientation="Horizontal" >
                     <Label Text="Start Date:" VerticalOptions="Center" TextColor="White" />
-                    <DatePicker x:Name="startDatePicker" Format="D" DateSelected="OnDateSelected" TextColor="White"/>
+                    <DatePicker x:Name="startDatePicker" Format="D" DateSelected="OnDateSelected" TextColor="{OnPlatform iOS=Black, Android=White}"/>
                 </StackLayout>
                 <StackLayout Orientation="Horizontal" >
                     <Label Text="End Date:" VerticalOptions="Center" TextColor="White" />
-                    <DatePicker x:Name="endDatePicker" MinimumDate="{Binding Source={x:Reference startDatePicker}, Path=Date}" Format="D" DateSelected="OnDateSelected" TextColor="White" />
+                    <DatePicker x:Name="endDatePicker" MinimumDate="{Binding Source={x:Reference startDatePicker}, Path=Date}" Format="D" DateSelected="OnDateSelected"  TextColor="{OnPlatform iOS=Black, Android=White}" />
                 </StackLayout>
 
                 <StackLayout>
-                    <Label>
+                    <Label  TextColor="White">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Today confirmed: " FontAttributes="Bold"/>
@@ -31,7 +31,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label>
+                    <Label TextColor="White">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Today deaths: " FontAttributes="Bold"/>
@@ -39,7 +39,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label>
+                    <Label TextColor="White">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Today new confirmed: " FontAttributes="Bold"/>
@@ -47,7 +47,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label>
+                    <Label TextColor="White">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Today new deaths: " FontAttributes="Bold"/>
@@ -62,42 +62,22 @@
                         <maps:SfMaps.Layers>
                             <maps:ShapeFileLayer x:Name="Layer" ShapeSelectionChanged="Layer_ShapeSelectionChanged" Uri="world1.shp" ShapeIDPath="Name" ShapeIDTableField="NAME" ItemsSource="{Binding Countries, Mode=TwoWay}" ShowMapItems="True"  SelectionMode="Single" EnableSelection="True" >
                                 <maps:ShapeFileLayer.TooltipSettings>
-                                    <maps:TooltipSetting  ShowTooltip="True"  ValuePath="Name" TextColor="White" Margin="10" BackgroundColor="Green" StrokeColor="Black" StrokeWidth="2" Duration="2000"/>
+                                    <maps:TooltipSetting  ShowTooltip="True"  ValuePath="Name" TextColor="White" Margin="10" BackgroundColor="LightGreen" StrokeColor="Black" StrokeWidth="2" Duration="2000"/>
                                 </maps:ShapeFileLayer.TooltipSettings>
 
-                                <!--<maps:ShapeFileLayer.Markers>
-                                <maps:MapMarker Label = "California" Latitude = "37" Longitude = "-120">
-                                </maps:MapMarker>
-                            </maps:ShapeFileLayer.Markers>
+                                <maps:ShapeFileLayer.BubbleMarkerSettings>
+                                    <maps:BubbleMarkerSetting ShowBubbles="True" ValuePath="{Binding IsMostCases}"  Fill="Orange" Opacity="0.8" />
+                                </maps:ShapeFileLayer.BubbleMarkerSettings>
 
-                            <maps:ShapeFileLayer.MarkerSettings>
-                                <maps:MapMarkerSetting IconColor="LimeGreen" IconSize="25" 
-                                                   LabelColor="White" LabelSize="20">
-                                </maps:MapMarkerSetting>
-                            </maps:ShapeFileLayer.MarkerSettings>
-
-                            <maps:ShapeFileLayer.ShapeSettings>
-                                <maps:ShapeSetting ShapeColorValuePath="Candidate" ShapeValuePath="Candidate">
-                                    <maps:ShapeSetting.ColorMappings>
-
-                                        <maps:EqualColorMapping Color="#D84444" LegendLabel="Romney"
-                                                            Value = "Romney"></maps:EqualColorMapping>
-                                        <maps:EqualColorMapping Color="#316DB5" LegendLabel="Obama"
-                                                            Value="Obama"></maps:EqualColorMapping>
-                                    </maps:ShapeSetting.ColorMappings>
-                                </maps:ShapeSetting>
-                            </maps:ShapeFileLayer.ShapeSettings>
-
-                            <maps:ShapeFileLayer.LegendSettings>
-                                <maps:MapLegendSetting ShowLegend="True" 
-                                                   LegendPosition="30,70">
-                                    <maps:MapLegendSetting.IconSize>
-                                        <Size Width="20" Height="20"></Size>
-                                    </maps:MapLegendSetting.IconSize>
-                                </maps:MapLegendSetting>
-                            </maps:ShapeFileLayer.LegendSettings>-->
-
-
+                                <maps:ShapeFileLayer.ShapeSettings>
+                                    <maps:ShapeSetting  ShapeColorValuePath="{Binding TodayConfirmed}" >
+                                        <maps:ShapeSetting.ColorMappings>
+                                            <maps:RangeColorMapping From="0" To="400" Color="#397D02"/>
+                                            <maps:RangeColorMapping From="401" To="1000" Color="#316DB5"/>
+                                            <maps:RangeColorMapping From="1001" To="20000" Color="#D84444"/>
+                                        </maps:ShapeSetting.ColorMappings>
+                                    </maps:ShapeSetting>
+                                </maps:ShapeFileLayer.ShapeSettings>
                             </maps:ShapeFileLayer>
                         </maps:SfMaps.Layers>
                     </maps:SfMaps>

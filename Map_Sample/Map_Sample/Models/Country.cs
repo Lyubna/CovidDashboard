@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -7,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Map_Sample
 {
-    public class Country
+    public class Country : INotifyPropertyChanged
     {        
         private string name;
         public string Name
@@ -19,7 +20,16 @@ namespace Map_Sample
         public string TodayConfirmed
         {
             get { return _todayConfirmed; }
-            set { _todayConfirmed = value; }
+            set {
+                if (_todayConfirmed != value)
+                {
+                    _todayConfirmed = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("TodayConfirmed"));
+                    }
+                }
+            }
         }
         private string todayNewConfirmed;
         public string TodayNewConfirmed
@@ -44,7 +54,16 @@ namespace Map_Sample
         public bool IsMostCases
         {
             get { return _isMostCases; }
-            set { _isMostCases = value; }
+            set {
+                if (_isMostCases != value)
+                {
+                    _isMostCases = value;
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("IsMostCases"));
+                    }
+                }
+            }
         }
 
         private bool _isLeastCases;
@@ -55,6 +74,9 @@ namespace Map_Sample
         }
 
         private bool _isMostDeaths;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public bool IsMostDeaths
         {
             get { return _isMostDeaths; }

@@ -15,7 +15,7 @@ using Xamarin.Forms;
 namespace Map_Sample.ViewModels
 {
     public class DetailsViewModel: INotifyPropertyChanged
-    {
+    {        
         private string _totalResults;
         public string TotalResults 
         {

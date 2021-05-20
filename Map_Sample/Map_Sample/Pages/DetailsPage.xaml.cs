@@ -19,13 +19,13 @@ namespace Map_Sample
         {
             InitializeComponent();
             BindingContext = VM = new DetailsViewModel();
-            VM.CountryName = countryName;
+            VM.CountryName = countryName;            
         }
         protected async override void OnAppearing()
         {
             base.OnAppearing();
             await VM.LoadPageData();
         }
-
+    
     }
 }

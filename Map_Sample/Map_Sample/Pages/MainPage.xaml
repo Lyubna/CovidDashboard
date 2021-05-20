@@ -9,9 +9,9 @@
              xmlns:maps="clr-namespace:Syncfusion.SfMaps.XForms;assembly=Syncfusion.SfMaps.XForms"
              Title="Covid Dashboard"
              BackgroundColor="#9531f3"
-             Padding="10">
+             Padding="10">    
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView Margin="10">
             <StackLayout>
                 <StackLayout Orientation="Horizontal" >
                     <Label Text="Start Date:" VerticalOptions="Center" TextColor="White" />
@@ -58,23 +58,24 @@
                 </StackLayout>
 
                 <Grid x:Name="grid">
-                    <maps:SfMaps x:Name="sfmap" BackgroundColor="Transparent" EnableZooming="True">
+                    <maps:SfMaps x:Name="sfmap" BackgroundColor="Transparent" EnableZooming="True" >
                         <maps:SfMaps.Layers>
-                            <maps:ShapeFileLayer x:Name="Layer" ShapeSelectionChanged="Layer_ShapeSelectionChanged" Uri="world1.shp" ShapeIDPath="Name" ShapeIDTableField="NAME" ItemsSource="{Binding Countries, Mode=TwoWay}" ShowMapItems="True"  SelectionMode="Single" EnableSelection="True" >
+                            <maps:ShapeFileLayer x:Name="Layer" ShapeSelectionChanged="Layer_ShapeSelectionChanged" Uri="world1.shp" ShapeIDPath="CountryName" ShapeIDTableField="NAME"  ItemsSource="{Binding Countries, Mode=TwoWay}" EnableSelection="True" >
+                               
                                 <maps:ShapeFileLayer.TooltipSettings>
-                                    <maps:TooltipSetting  ShowTooltip="True"  ValuePath="Name" TextColor="White" Margin="10" BackgroundColor="LightGreen" StrokeColor="Black" StrokeWidth="2" Duration="2000"/>
+                                    <maps:TooltipSetting  ShowTooltip="True"  ValuePath="CountryName" TextColor="White" Margin="10" BackgroundColor="LightGreen" StrokeColor="Black" StrokeWidth="2" Duration="2000"/>
                                 </maps:ShapeFileLayer.TooltipSettings>
 
-                                <maps:ShapeFileLayer.BubbleMarkerSettings>
+                                <!--<maps:ShapeFileLayer.BubbleMarkerSettings>
                                     <maps:BubbleMarkerSetting ShowBubbles="True" ValuePath="{Binding IsMostCases}"  Fill="Orange" Opacity="0.8" />
-                                </maps:ShapeFileLayer.BubbleMarkerSettings>
+                                </maps:ShapeFileLayer.BubbleMarkerSettings>-->
 
                                 <maps:ShapeFileLayer.ShapeSettings>
-                                    <maps:ShapeSetting  ShapeColorValuePath="{Binding TodayConfirmed}" >
+                                    <maps:ShapeSetting  ShapeColorValuePath="TodayConfirmed" >
                                         <maps:ShapeSetting.ColorMappings>
-                                            <maps:RangeColorMapping From="0" To="400" Color="#397D02"/>
-                                            <maps:RangeColorMapping From="401" To="1000" Color="#316DB5"/>
-                                            <maps:RangeColorMapping From="1001" To="20000" Color="#D84444"/>
+                                            <maps:RangeColorMapping From="0" To="10" Color="#397D02"/>
+                                            <maps:RangeColorMapping From="10" To="1000" Color="#316DB5"/>
+                                            <maps:RangeColorMapping From="1001" To="7987" Color="#D84444"/>
                                         </maps:ShapeSetting.ColorMappings>
                                     </maps:ShapeSetting>
                                 </maps:ShapeFileLayer.ShapeSettings>

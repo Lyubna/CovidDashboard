@@ -16,6 +16,7 @@ namespace Map_Sample
     public partial class MainPage : ContentPage
     {
         private MainPageViewModel VM;
+        public bool IsRefresh { get; set; }
         public MainPage()
         {
             InitializeComponent();
@@ -23,33 +24,46 @@ namespace Map_Sample
             BindingContext = VM = new MainPageViewModel();
         }
 
-        protected async override void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-
-            var fromDate = startDatePicker.Date.ToString("yyyy/MM/dd");
-            var toDate = endDatePicker.Date.ToString("yyyy/MM/dd");
-            await VM.ExcuteLoadCommand(fromDate, toDate);
+            if (!IsRefresh) 
+            {
+                GetData();
+                IsRefresh = true;
+            }
         }
 
 
-        private async void OnDateSelected(object sender, DateChangedEventArgs e)
+        private void OnDateSelected(object sender, DateChangedEventArgs e)
+        {
+            GetData();
+        }
+        private void GetData() 
         {
             var fromDate = startDatePicker.Date.ToString("yyyy/MM/dd");
             var toDate = endDatePicker.Date.ToString("yyyy/MM/dd");
-            await VM.ExcuteLoadCommand(fromDate, toDate);
-        }
 
+            var dates = new Dates
+            {
+                FromDate = fromDate,
+                ToDate = toDate
+
+            };
+
+            VM.LoadPageData.Execute(dates);
+
+        }
+       
         private async void Layer_ShapeSelectionChanged(object sender, ShapeSelectedEventArgs e)
         {
-            if (sender is Syncfusion.SfMaps.XForms.ShapeFileLayer && e?.Data != null && e.Data is Country country) 
+            if (sender is Syncfusion.SfMaps.XForms.ShapeFileLayer && e?.Data != null && e.Data is Country country)
             {
-                var page = new DetailsPage(country.Name);
-                page.Title = country.Name;
+                var page = new DetailsPage(country.CountryName);
+                page.Title = country.CountryName;
                 await Navigation.PushAsync(page);
-
             }
-                        
+
         }
     }
 }
